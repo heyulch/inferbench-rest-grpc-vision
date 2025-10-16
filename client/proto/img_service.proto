@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package img;
+
+message Image {
+  bytes data = 1;
+  string mime = 2;
+  bool save = 3;
+}
+
+message Box {
+  float x = 1;
+  float y = 2;
+  float w = 3;
+  float h = 4;
+}
+
+message Detection {
+  string label = 1;
+  repeated Box boxes = 2;
+  repeated float scores = 3;
+  int32 detection_count = 4;
+  float latency_ms = 5;
+  string filename = 6;
+  string status = 7;
+}
+
+service Inference {
+  rpc Predict (Image) returns (Detection);
+}

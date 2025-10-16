@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  grpc_service:
+    build:
+      context: ./grpc_service
+      dockerfile: Dockerfile
+    ports:
+      - "50051:50051"
+    volumes:
+      - ./grpc_service:/app
+    command: poetry run python main.py
+
+  rest_service:
+    build:
+      context: ./rest_service
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./rest_service:/app
+    command: poetry run uvicorn main:app --host 0.0.0.0 --port 8001 --reload

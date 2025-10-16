@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package img;
+
+message Image {
+  bytes data = 1;           // JPEG
+  string mime = 2;          // "image/jpeg"
+  bool save = 3;            // guardar o no
+}
+
+message Box {
+  float x = 1;              
+  float y = 2;
+  float w = 3;
+  float h = 4;
+}
+
+message Detection {
+  string label = 1;                   // "face"
+  repeated Box boxes = 2;
+  repeated float scores = 3;
+  int32 detection_count = 4;
+  float latency_ms = 5;               // tiempo del servidor
+  string filename = 6;                // YYYYMMDD_HHMMSS_mmm.jpg (si save=1)
+  string status = 7;                  // "OK" | "NO_DETECTION"
+}
+
+service Inference {
+  rpc Predict (Image) returns (Detection);
+}
